@@ -38,7 +38,7 @@ export default function renderOrderSummary() {
                   ${matchingProduct.name}
                 </div>
                 <div class="product-price">
-                  $${formatCurrency(matchingProduct.priceCents)}
+                  ${matchingProduct.getPrice()}
                 </div>
                 <div class="product-quantity js-product-quantity-${
                   matchingProduct.id
@@ -52,7 +52,9 @@ export default function renderOrderSummary() {
                     Update
                   </span>
                   <span data-product-id='${matchingProduct.id}'
-                   class=" delete-quantity-link js-delete-link js-delete-link-${matchingProduct.id} link-primary">
+                   class=" delete-quantity-link js-delete-link js-delete-link-${
+                     matchingProduct.id
+                   } link-primary">
                     Delete
                   </span>
                 </div>

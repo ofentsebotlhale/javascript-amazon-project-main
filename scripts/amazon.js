@@ -1,12 +1,17 @@
 //module
 import { formatCurrency } from "./utils/money.js";
 import { cart, addToCart } from "../data/cart.js";
-import { products } from "../data/products.js";
+import { products, loadProducts } from "../data/products.js";
 
-let productsHTML = "";
+addEventListener("load", () => {
+  loadProducts(renderProductsGrid);
+});
 
-products.forEach((product) => {
-  productsHTML += `
+function renderProductsGrid() {
+  let productsHTML = "";
+
+  products.forEach((product) => {
+    productsHTML += `
         <div class="product-container">
           <div class="product-image-container">
             <img
@@ -25,7 +30,8 @@ products.forEach((product) => {
               src="${product.getStarsURL()}"
             />
             <div class="product-rating-count link-primary">${
-              product.rating.count}</div>
+              product.rating.count
+            }</div>
           </div>
 
           <div class="product-price">
@@ -61,22 +67,23 @@ products.forEach((product) => {
           }">Add to Cart</button>
         </div>
 `;
-});
+  });
 
-document.querySelector(".js-products-grid").innerHTML = productsHTML;
+  document.querySelector(".js-products-grid").innerHTML = productsHTML;
 
-function cartQuantity() {
-  let cartQuantity = 0;
-  cart.forEach((cartItem) => {
-    cartQuantity += cartItem.quantity;
-    document.querySelector(".cart-quantity").innerText = cartQuantity;
+  function cartQuantity() {
+    let cartQuantity = 0;
+    cart.forEach((cartItem) => {
+      cartQuantity += cartItem.quantity;
+      document.querySelector(".cart-quantity").innerText = cartQuantity;
+    });
+  }
+
+  document.querySelectorAll(".js-add-to-cart").forEach((button) => {
+    button.addEventListener("click", () => {
+      const productId = button.dataset.productId;
+      addToCart(productId);
+      cartQuantity();
+    });
   });
 }
-
-document.querySelectorAll(".js-add-to-cart").forEach((button) => {
-  button.addEventListener("click", () => {
-    const productId = button.dataset.productId;
-    addToCart(productId);
-    cartQuantity();
-  });
-});
